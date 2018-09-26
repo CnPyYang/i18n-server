@@ -13,5 +13,9 @@ module.exports = app => {
   // user
   router.get('/api/user/profile', needLogin, controller.user.getProfile);
 
-  //
+  // i18n
+  router.get('/api/i18n/languages', needLogin, controller.i18n.getLanguages);
+  router.post('/api/i18n/save', needLogin, controller.i18n.save);
+  router.get('/api/i18n/item', needLogin, controller.i18n.getItem);
+  router.get('/api/i18n/list', needLogin, controller.i18n.getList);
 };

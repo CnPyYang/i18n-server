@@ -11,11 +11,11 @@ exports.mysql = {
     // 端口号
     port: '3306',
     // 用户名
-    user: 'candy',
+    user: 'telegram_bot',
     // 密码
-    password: 'K3eqOxSIz0mFUrAW',
+    password: '355xzyNEDN3P3Wmq',
     // 数据库名
-    database: 'candy',
+    database: 'telegram_bot',
     // 证书
     ssl: {
       key: fs.readFileSync(path.join(__dirname, './ssl/test/client-key.pem')),
