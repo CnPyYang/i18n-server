@@ -1,7 +1,6 @@
 'use strict';
 
 const Controller = require('egg').Controller;
-const { isArray } = require('../commons/utils');
 
 class I18nController extends Controller {
   async getLanguages() {
@@ -13,22 +12,23 @@ class I18nController extends Controller {
     const { ctx, service } = this;
     const params = ctx.request.body;
 
-    if (!isArray(params)) {
-      this.throw(422, 'Validation Failed', {
-        code: 'invalid_param',
-        errors: 'param should be array',
-      });
-    }
-
     params.forEach(param => {
       ctx.validate({
-        url: { type: 'string', required: true },
-        key: { type: 'string', required: true },
-        lang_id: { type: 'number', required: true },
-        value: { type: 'string' },
+        data: {
+          type: 'object',
+          required: true,
+          rule: {
+            url: { type: 'string', required: true },
+            key: { type: 'string', required: true },
+            lang_id: { type: 'number', required: true },
+            value: { type: 'string' },
+          },
+        },
       }, param);
     });
+
     await service.i18n.save(params);
+
     ctx.body = true;
   }
 
