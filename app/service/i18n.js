@@ -8,7 +8,7 @@ class I18nService extends Service {
   }
 
   async save(params) {
-    return await this.app.mysql.insert('i_i18n', params);
+    return await this.app.mysql.insert('i_i18n', params.data);
   }
 
   async findList({ url }) {

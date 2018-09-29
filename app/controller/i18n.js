@@ -12,23 +12,21 @@ class I18nController extends Controller {
     const { ctx, service } = this;
     const params = ctx.request.body;
 
-    params.forEach(param => {
-      ctx.validate({
-        data: {
-          type: 'object',
-          required: true,
-          rule: {
-            url: { type: 'string', required: true },
-            key: { type: 'string', required: true },
-            lang_id: { type: 'number', required: true },
-            value: { type: 'string' },
-          },
+    ctx.validate({
+      data: {
+        type: 'array',
+        itemType: 'object',
+        required: true,
+        rule: {
+          url: { type: 'string', required: true },
+          key: { type: 'string', required: true },
+          lang_id: { type: 'number', required: true },
+          value: { type: 'string' },
         },
-      }, param);
+      },
     });
 
     await service.i18n.save(params);
-
     ctx.body = true;
   }
 
