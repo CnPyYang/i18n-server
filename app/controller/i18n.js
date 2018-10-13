@@ -63,7 +63,7 @@ async function checkSaveOrUpdateI18n(type, ctx, params, service) {
       rule: {
         key: { type: 'string', required: true },
         lang_id: { type: 'number', required: true },
-        value: { type: 'string' },
+        value: { type: 'string', allowEmpty: true },
       },
     },
   };
