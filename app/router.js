@@ -16,6 +16,7 @@ module.exports = app => {
   // i18n
   router.get('/api/i18n/languages', needLogin, controller.i18n.getLanguages);
   router.post('/api/i18n/save', needLogin, controller.i18n.save);
+  router.post('/api/i18n/update', needLogin, controller.i18n.update);
   router.get('/api/i18n/item', needLogin, controller.i18n.getItem);
   router.get('/api/i18n/list', needLogin, controller.i18n.getList);
 };
