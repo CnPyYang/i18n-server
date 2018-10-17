@@ -8,12 +8,14 @@ class UrLangController extends Controller {
     const params = ctx.request.body;
 
     ctx.validate({
-      type: 'array',
-      itemType: 'object',
-      required: true,
-      rule: {
-        hostname: { type: 'string', required: true },
-        lang_id: { type: 'number', required: true },
+      data: {
+        type: 'array',
+        itemType: 'object',
+        required: true,
+        rule: {
+          hostname: { type: 'string', required: true },
+          lang_id: { type: 'number', required: true },
+        },
       },
     });
 
@@ -27,9 +29,11 @@ class UrLangController extends Controller {
     const params = ctx.request.body;
 
     ctx.validate({
-      type: 'array',
-      itemType: 'number',
-      required: true,
+      data: {
+        type: 'array',
+        itemType: 'number',
+        required: true,
+      },
     });
 
     await service.urlang.delLangByUrl(params);
