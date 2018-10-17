@@ -17,20 +17,6 @@ class UrLangController extends Controller {
     ctx.body = { data: true };
   }
 
-  async update() {
-    const { ctx, service } = this;
-    const params = ctx.request.body;
-
-    ctx.validate({
-      id: { type: 'number', required: true },
-      lang_id: { type: 'number', required: true },
-    });
-
-    await service.urlang.updateLangByUrl(params);
-
-    ctx.body = { data: true };
-  }
-
   async del() {
     const { ctx, service } = this;
     const params = ctx.request.body;

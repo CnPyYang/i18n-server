@@ -31,18 +31,6 @@ class UrLangService extends Service {
     return true;
   }
 
-  async updateLangByUrl(params) {
-    const { id, lang_id } = params;
-    const res = await this.findByUrlLangId(id);
-
-    if (res.length === 0) {
-      this.ctx.throw(I18N_URL_LANG_NOFOUND.msg, { errCode: I18N_URL_LANG_NOFOUND.code });
-    }
-
-    const sql = 'update i_i18n_url_lang set lang_id = ? where id = ? and status = 1';
-    await this.app.mysql.query(sql, [ lang_id, id ]);
-  }
-
   async delLangByUrl({ id }) {
     const res = await this.findByUrlLangId(id);
 
