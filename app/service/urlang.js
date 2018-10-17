@@ -20,26 +20,30 @@ class UrLangService extends Service {
   }
 
   async addLangByUrl(params) {
-    const count = await this.countByUrlLangId(params);
+    for (let i = 0, len = params.length; i < len; i++) {
+      const param = params[i];
+      const count = await this.countByUrlLangId(param);
 
-    if (count === 0) {
-      this.ctx.throw(I18N_URL_LANG_EXIST.msg, { errCode: I18N_URL_LANG_EXIST.code });
+      if (count === 0) {
+        this.ctx.throw(I18N_URL_LANG_EXIST.msg, { errCode: I18N_URL_LANG_EXIST.code });
+      }
+
+      await this.app.mysql.insert('i_i18n_url_lang', param);
     }
-
-    this.app.mysql.insert('i_i18n_url_lang', params);
-
-    return true;
   }
 
-  async delLangByUrl({ id }) {
-    const res = await this.findByUrlLangId(id);
+  async delLangByUrl(params) {
+    for (let i = 0, len = params.length; i < len; i++) {
+      const { id } = params[i];
+      const res = await this.findByUrlLangId(id);
 
-    if (res.length === 0) {
-      this.ctx.throw(I18N_URL_LANG_NOFOUND.msg, { errCode: I18N_URL_LANG_NOFOUND.code });
+      if (res.length === 0) {
+        this.ctx.throw(I18N_URL_LANG_NOFOUND.msg, { errCode: I18N_URL_LANG_NOFOUND.code });
+      }
+
+      const sql = 'update i_i18n_url_lang set status = 0 where id = ?';
+      await this.app.mysql.query(sql, id);
     }
-
-    const sql = 'update i_i18n_url_lang set status = 0 where id = ?';
-    await this.app.mysql.query(sql, id);
   }
 
   async getList({ hostname }) {
