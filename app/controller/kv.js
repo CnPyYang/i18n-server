@@ -5,60 +5,13 @@ const Controller = require('egg').Controller;
 const { hasRepeatKey } = require('../commons/utils');
 const { I18N_REPEAT_KEY, I18N_EXIST_KEY } = require('../../constants/error_codes');
 
-class I18nController extends Controller {
-  async getLanguages() {
-    const { ctx, service } = this;
-    ctx.body = { languages: await service.i18n.findLanguages() };
-  }
-
-  async addLangByUrl() {
-    const { ctx, service } = this;
-    const params = ctx.request.body;
-
-    ctx.validate({
-      hostname: { type: 'string', required: true },
-      pathname: { type: 'string', required: true },
-      lang_id: { type: 'number', required: true },
-    });
-
-    await service.i18n.addLangByUrl(params);
-
-    ctx.body = { data: true };
-  }
-
-  async updateLangByUrl() {
-    const { ctx, service } = this;
-    const params = ctx.request.body;
-
-    ctx.validate({
-      id: { type: 'number', required: true },
-      lang_id: { type: 'number', required: true },
-    });
-
-    await service.i18n.updateLangByUrl(params);
-
-    ctx.body = { data: true };
-  }
-
-  async delLangByUrl() {
-    const { ctx, service } = this;
-    const params = ctx.request.body;
-
-    ctx.validate({
-      id: { type: 'number', required: true },
-    });
-
-    await service.i18n.delLangByUrl(params);
-
-    ctx.body = { data: true };
-  }
-
+class KvController extends Controller {
   async save() {
     const { ctx, service } = this;
     const params = ctx.request.body;
 
     await checkSaveOrUpdateI18n('save', ctx, params, service);
-    await service.i18n.save(params);
+    await service.kv.save(params);
 
     ctx.body = { data: true };
   }
@@ -68,7 +21,7 @@ class I18nController extends Controller {
     const params = ctx.request.body;
 
     await checkSaveOrUpdateI18n('update', ctx, params, service);
-    await service.i18n.update(params);
+    await service.kv.update(params);
 
     ctx.body = { data: true };
   }
@@ -80,7 +33,7 @@ class I18nController extends Controller {
       id: { type: 'string', required: true },
     }, ctx.request.query);
 
-    ctx.body = await service.i18n.findItem(ctx.request.query);
+    ctx.body = { data: await service.kv.findItem(ctx.request.query) };
   }
 
   async getList() {
@@ -91,7 +44,7 @@ class I18nController extends Controller {
       pathname: { type: 'string', required: true },
     }, ctx.request.query);
 
-    ctx.body = await service.i18n.findList(ctx.request.query);
+    ctx.body = { data: await service.kv.findList(ctx.request.query) };
   }
 }
 
@@ -136,4 +89,4 @@ async function checkSaveOrUpdateI18n(type, ctx, params, service) {
   }
 }
 
-module.exports = I18nController;
+module.exports = KvController;

@@ -4,19 +4,31 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-  const { router, controller } = app;
+  const { router } = app;
   const needLogin = app.middleware.needLogin();
 
   // auth
-  router.post('/api/auth/login', controller.auth.login);
+  router.post('/api/auth/login', 'auth.login');
 
   // user
-  router.get('/api/user/profile', needLogin, controller.user.getProfile);
+  router.get('/api/user/profile', needLogin, 'user.getProfile');
+
+  // languages
+  router.get('/api/languages', needLogin, 'languages.getLanguages');
 
   // i18n
-  router.get('/api/i18n/languages', needLogin, controller.i18n.getLanguages);
-  router.post('/api/i18n/save', needLogin, controller.i18n.save);
-  router.post('/api/i18n/update', needLogin, controller.i18n.update);
-  router.get('/api/i18n/item', needLogin, controller.i18n.getItem);
-  router.get('/api/i18n/list', needLogin, controller.i18n.getList);
+
+  router.post('/api/urlang/add', needLogin, 'urlang.add');
+  router.post('/api/urlang/update', needLogin, 'urlang.update');
+  router.post('/api/urlang/del', needLogin, 'urlang.del');
+
+  // kv
+  router.post('/api/kv/save', needLogin, 'kv.save');
+  router.post('/api/kv/update', needLogin, 'kv.update');
+  router.get('/api/kv/item', needLogin, 'kv.getItem');
+  router.get('/api/kv/list', needLogin, 'kv.getList');
+
+  // download
+
+  // project
 };
