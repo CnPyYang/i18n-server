@@ -17,10 +17,10 @@ module.exports = app => {
   router.get('/api/languages', needLogin, 'languages.getLanguages');
 
   // i18n
-
   router.post('/api/urlang/add', needLogin, 'urlang.add');
   router.post('/api/urlang/update', needLogin, 'urlang.update');
   router.post('/api/urlang/del', needLogin, 'urlang.del');
+  router.get('api/urlang/list', needLogin, 'urlang.list');
 
   // kv
   router.post('/api/kv/save', needLogin, 'kv.save');

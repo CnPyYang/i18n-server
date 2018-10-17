@@ -51,6 +51,7 @@ class KvController extends Controller {
 async function checkSaveOrUpdateI18n(type, ctx, params, service) {
   const rules = {
     url_lang_id: { type: 'number', required: true },
+    pathname: { type: 'string', required: true },
     data: {
       type: 'array',
       itemType: 'object',
@@ -85,6 +86,7 @@ async function checkSaveOrUpdateI18n(type, ctx, params, service) {
 
     params.data.forEach(item => {
       item.url_lang_id = params.url_lang_id;
+      item.pathname = params.pathname;
     });
   }
 }

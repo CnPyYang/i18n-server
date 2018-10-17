@@ -9,7 +9,6 @@ class UrLangController extends Controller {
 
     ctx.validate({
       hostname: { type: 'string', required: true },
-      pathname: { type: 'string', required: true },
       lang_id: { type: 'number', required: true },
     });
 
@@ -43,6 +42,18 @@ class UrLangController extends Controller {
     await service.urlang.delLangByUrl(params);
 
     ctx.body = { data: true };
+  }
+
+  async list() {
+    const { ctx, service } = this;
+
+    ctx.validate({
+      hostname: { type: 'string', required: true },
+    }, ctx.request.query);
+
+    const list = await service.urlang.getList(ctx.request.query);
+
+    ctx.body = { data: list };
   }
 }
 

@@ -4,14 +4,14 @@ const Service = require('egg').Service;
 const { I18N_URL_LANG_EXIST, I18N_URL_LANG_NOFOUND } = require('../../constants/error_codes');
 
 class UrLangService extends Service {
-  async findInfosByUrl(hostname, pathname) {
-    const sql = 'select * from i_i18n_url_lang where hostname = ? and pathname = ? and status = 1';
-    return await this.app.mysql.query(sql, [ hostname, pathname ]);
+  async findInfosByUrl(hostname) {
+    const sql = 'select * from i_i18n_url_lang where hostname = ? and status = 1';
+    return await this.app.mysql.query(sql, hostname);
   }
 
-  async countByUrlLangId({ hostname, pathname, lang_id }) {
-    const sql = 'select count(1) from i_i18n_url_lang where hostname = ? and pathname = ? and lang_id = ? and status = 1';
-    return await this.app.mysql.query(sql, [ hostname, pathname, lang_id ]);
+  async countByUrlLangId({ hostname, lang_id }) {
+    const sql = 'select count(1) from i_i18n_url_lang where hostname = ? and lang_id = ? and status = 1';
+    return await this.app.mysql.query(sql, [ hostname, lang_id ]);
   }
 
   async findByUrlLangId(id) {
@@ -52,6 +52,11 @@ class UrLangService extends Service {
 
     const sql = 'update i_i18n_url_lang set status = 0 where id = ?';
     await this.app.mysql.query(sql, id);
+  }
+
+  async getList({ hostname }) {
+    const sql = 'select * from i_i18n_url_lang where hostname = ? and status = 1';
+    return await this.app.mysql.query(sql, hostname);
   }
 }
 
