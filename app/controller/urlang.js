@@ -19,7 +19,7 @@ class UrLangController extends Controller {
       },
     });
 
-    await service.urlang.addLangByUrl(params);
+    await service.urlang.addLangByUrl(params.data);
 
     ctx.body = { data: true };
   }
@@ -36,7 +36,7 @@ class UrLangController extends Controller {
       },
     });
 
-    await service.urlang.delLangByUrl(params);
+    await service.urlang.delLangByUrl(params.data);
 
     ctx.body = { data: true };
   }
