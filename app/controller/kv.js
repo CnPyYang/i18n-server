@@ -30,7 +30,9 @@ class KvController extends Controller {
     const { ctx, service } = this;
 
     ctx.validate({
-      id: { type: 'string', required: true },
+      key: { type: 'string', required: true },
+      hostname: { type: 'string', required: true },
+      pathname: { type: 'string', required: true },
     }, ctx.request.query);
 
     ctx.body = { data: await service.kv.findItem(ctx.request.query) };

@@ -24,7 +24,7 @@ class KvService extends Service {
   }
 
   async findList({ hostname, pathname }) {
-    const url_lang_infos = await this.service.UrLang.findInfosByUrl(hostname);
+    const url_lang_infos = await this.service.urlang.findInfosByUrl(hostname);
     const url_lang_infos_by_id = _.keyBy(url_lang_infos, 'id');
     const url_lang_ids = _.keys(url_lang_infos_by_id);
 
@@ -32,12 +32,23 @@ class KvService extends Service {
       return [];
     }
 
-    const sql = `select * from i_i18n_key_value where url_lang_id in (${Array.from({ length: url_lang_ids.length }, () => '?').join(',')}) and pathname = '${pathname}' `;
-    return await this.app.mysql.query(sql, url_lang_ids);
+    const sql = `select * from i_i18n_key_value where url_lang_id in (${Array.from({ length: url_lang_ids.length }, () => '?').join(',')}) and pathname = ? `;
+
+    return await this.app.mysql.query(sql, [ ...url_lang_ids, pathname ]);
   }
 
-  async findItem({ id }) {
-    return await this.app.mysql.query('select * from i_i18n_key_value where id = ?', id);
+  async findItem({ key, hostname, pathname }) {
+    const url_lang_infos = await this.service.urlang.findInfosByUrl(hostname);
+    const url_lang_infos_by_id = _.keyBy(url_lang_infos, 'id');
+    const url_lang_ids = _.keys(url_lang_infos_by_id);
+
+    if (url_lang_ids.length === 0) {
+      return [];
+    }
+
+    const sql = `select * from i_i18n_key_value where url_lang_id in (${Array.from({ length: url_lang_ids.length }, () => '?').join(',')}) and pathname = ? and \`key\` = ?`;
+
+    return await this.app.mysql.query(sql, [ ...url_lang_ids, pathname, key ]);
   }
 }
 
