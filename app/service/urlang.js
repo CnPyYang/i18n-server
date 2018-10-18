@@ -1,7 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
-const { I18N_URL_LANG_EXIST, I18N_URL_LANG_NOFOUND } = require('../../constants/error_codes');
+const { I18N_URL_LANG_EXIST } = require('../../constants/error_codes');
 
 class UrLangService extends Service {
   async findInfosByUrl(hostname) {
@@ -14,7 +14,7 @@ class UrLangService extends Service {
     return await this.app.mysql.query(sql, [ hostname, lang_id ]);
   }
 
-  async findByUrlLangId(id) {
+  async findByUrLangId(id) {
     const sql = 'select * from i_i18n_url_lang where id = ? and status = 1';
     return await this.app.mysql.query(sql, id);
   }
@@ -32,17 +32,11 @@ class UrLangService extends Service {
     }
   }
 
-  async delLangByUrl(params) {
+  async delUrLang(params) {
     for (let i = 0, len = params.length; i < len; i++) {
       const id = params[i];
-      const res = await this.findByUrlLangId(id);
-
-      if (res.length === 0) {
-        this.ctx.throw(I18N_URL_LANG_NOFOUND.msg, { errCode: I18N_URL_LANG_NOFOUND.code });
-      }
-
-      const sql = 'update i_i18n_url_lang set status = 0 where id = ?';
-      await this.app.mysql.query(sql, id);
+      await this.app.mysql.query('update i_i18n_url_lang set status = 0 where id = ?', id);
+      await this.service.kv.delByUrlangId(id);
     }
   }
 

@@ -12,5 +12,4 @@ module.exports = {
   I18N_REPEAT_KEY: { code: 3000, msg: '有重复的 key' },
   I18N_EXIST_KEY: { code: 3001, msg: '有已存在的 key' },
   I18N_URL_LANG_EXIST: { code: 30002, msg: '重复配置 URL_LANGUAGE' },
-  I18N_URL_LANG_NOFOUND: { code: 30003, msg: 'URL_LANGUAGE 配置不存在' },
 };

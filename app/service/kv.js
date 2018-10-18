@@ -18,6 +18,11 @@ class KvService extends Service {
     }
   }
 
+  async delByUrlangId(url_lang_id) {
+    const sql = 'update i_i18n_key_value set status = 0 where url_lang_id = ? and status = 1';
+    await this.app.mysql.query(sql, url_lang_id);
+  }
+
   async findByKeys(url_lang_id, keys) {
     const sql = `select * from i_i18n_key_value where url_lang_id = ? and \`key\` in (${Array.from({ length: keys.length }, () => '?').join(',')})`;
     return await this.app.mysql.query(sql, [ url_lang_id, ...keys ]);

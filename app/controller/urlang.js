@@ -36,7 +36,7 @@ class UrLangController extends Controller {
       },
     });
 
-    await service.urlang.delLangByUrl(params.data);
+    await service.urlang.delUrLang(params.data);
 
     ctx.body = { data: true };
   }
