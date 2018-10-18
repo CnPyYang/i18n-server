@@ -1,7 +1,6 @@
 CREATE TABLE `i_i18n_url_lang` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `hostname` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `pathname` varchar(100) CHARACTER SET utf8 NOT NULL,
   `lang_id` int(11) NOT NULL,
   `status` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),

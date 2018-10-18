@@ -34,7 +34,7 @@ class UrLangService extends Service {
 
   async delLangByUrl(params) {
     for (let i = 0, len = params.length; i < len; i++) {
-      const { id } = params[i];
+      const id = params[i];
       const res = await this.findByUrlLangId(id);
 
       if (res.length === 0) {
