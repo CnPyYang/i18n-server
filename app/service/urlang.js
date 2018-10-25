@@ -19,6 +19,11 @@ class UrLangService extends Service {
     return await this.app.mysql.query(sql, id);
   }
 
+  async findByHostname(hostname) {
+    const sql = 'select * from i_i18n_url_lang where hostname = ? and status = 1';
+    return await this.app.mysql.query(sql, hostname);
+  }
+
   async addLangByUrl(params) {
     for (let i = 0, len = params.length; i < len; i++) {
       const param = params[i];

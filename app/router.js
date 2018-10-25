@@ -28,6 +28,5 @@ module.exports = app => {
   router.get('/api/kv/list', needLogin, 'kv.getList');
 
   // download
-
-  // project
+  router.post('/api/cdn', needLogin, 'cdn.genI18n');
 };

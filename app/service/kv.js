@@ -55,6 +55,16 @@ class KvService extends Service {
 
     return await this.app.mysql.query(sql, [ ...url_lang_ids, pathname, key ]);
   }
+
+  async findByUrlangIds(url_lang_ids) {
+    if (url_lang_ids.length === 0) {
+      return [];
+    }
+
+    const sql = `select * from i_i18n_key_value where url_lang_id in (${Array.from({ length: url_lang_ids.length }, () => '?').join(',')})`;
+
+    return await this.app.mysql.query(sql, [ ...url_lang_ids ]);
+  }
 }
 
 module.exports = KvService;

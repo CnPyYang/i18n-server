@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Service = require('egg').Service;
 const { USER_NO_EXIST, AUTH_PASSWORD_WRONG, AUTH_TOKEN_VERIFY_FAIL } = require('../../constants/error_codes');
-const { TOKEN_EXPIRE, JWT_SECRET } = require('../../constants');
 
 class AuthService extends Service {
   async login({ username, password }) {
@@ -31,12 +30,12 @@ class AuthService extends Service {
     return jwt.sign(Object.assign({
       id,
       username,
-    }, extra), JWT_SECRET, { expiresIn: TOKEN_EXPIRE });
+    }, extra), this.config.auth.JWT_SECRET, { expiresIn: this.config.auth.TOKEN_EXPIRE });
   }
 
   async verifyToken(access_token) {
     try {
-      const info = jwt.verify(access_token, JWT_SECRET);
+      const info = jwt.verify(access_token, this.config.auth.JWT_SECRET);
 
       const { id } = info;
       const utoken = await this.getAccessTokenByUserId(id);
@@ -57,7 +56,7 @@ class AuthService extends Service {
     await this.app.mysql.insert('i_passport', {
       user_id: user.id,
       access_token,
-      expire_at: new Date(Date.now() + (TOKEN_EXPIRE * 1000)),
+      expire_at: new Date(Date.now() + (this.config.auth.TOKEN_EXPIRE * 1000)),
       created_at: new Date(),
       updated_at: new Date(),
     });
