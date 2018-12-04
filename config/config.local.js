@@ -17,7 +17,7 @@ exports.mysql = {
     // 密码
     password: '355xzyNEDN3P3Wmq',
     // 数据库名
-    database: 'telegram_bot'
+    database: 'telegram_bot',
   },
   // 是否加载到 app 上，默认开启
   app: true,
