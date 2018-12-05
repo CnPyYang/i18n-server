@@ -13,6 +13,7 @@ class CdnController extends Controller {
 
     const { hostname } = ctx.request.body;
     const { site_i18n, pages_i18n } = await service.cdn.genI18n(hostname);
+
     const script_wrap = json => `window.i18nData = ${json};`;
     const suffix_replace = (page_path, suffix) => {
       page_path = page_path.replace(/(\.html)$/, '');
